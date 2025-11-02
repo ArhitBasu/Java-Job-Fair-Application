@@ -160,6 +160,9 @@
                 <label for="email" class="form-label">Email Address</label>
                 <input type="email" th:field="*{email}" class="form-control" placeholder="you@example.com" required>
             </div>
+            <div th:if="${message}" class="message" th:classappend="${messageType}">
+                <p th:text="${message}"></p>
+            </div>
 
             <div class="col-md-6">
                 <label for="phone" class="form-label">Phone Number</label>

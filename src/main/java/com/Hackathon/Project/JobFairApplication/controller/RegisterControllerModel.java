@@ -38,18 +38,34 @@ public class RegisterControllerModel {
 
         if ("candidate".equals(role)) {
 
+            if(!applicantService.isProfileAvailable ( userDTO.getEmail () )){
+                model.addAttribute("message", "Profile already exists for the email: " + userDTO.getEmail ());
+                model.addAttribute("messageType", "error");
+                model.addAttribute("user", userDTO);
+                return "register";
+            }
+
             applicantService.addNewApplicant(userDTO);
 
             session.setAttribute("userType", "applicant");
             session.setAttribute("userName", userDTO.getUsername());
 
         } else if ("company".equals(role)) {
+            if(!employerService.isProfileAvailable ( userDTO.getEmail () )){
+                model.addAttribute("message", "Profile already exists for the email: " + userDTO.getEmail ());
+                model.addAttribute("messageType", "error");
+                model.addAttribute("user", userDTO);
+
+                return "register";
+            }
             employerService.addNewEmployee(userDTO);
 
             session.setAttribute("userType", "employer");
             session.setAttribute("userName", userDTO.getCompanyName());
         } else {
             model.addAttribute("error", "Invalid role selected");
+            model.addAttribute("user", userDTO);
+
             return "register";
         }
 
